@@ -1,0 +1,1 @@
+# Alchemist Plugin for IntelliJ
