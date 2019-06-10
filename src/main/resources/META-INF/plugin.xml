@@ -13,4 +13,8 @@
 
     <!--<resource-bundle></resource-bundle>-->
 
+    <extensions defaultExtensionNs="com.intellij">
+        <projectTemplatesFactory implementation="it.unibo.ide.project.AlchemistTemplatesFactory"/>
+    </extensions>
+
 </idea-plugin>
