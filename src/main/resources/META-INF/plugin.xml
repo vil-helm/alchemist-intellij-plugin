@@ -1,0 +1,16 @@
+<idea-plugin>
+    <id>it.unibo.alchemist</id>
+
+    <name>Alchemist</name>
+    <!--<description></description>-->
+
+    <vendor></vendor>
+
+    <version>0.1.0</version>
+    <change-notes>Initial state of the plugin. No functionality.</change-notes>
+
+    <!--<idea-version/>-->
+
+    <!--<resource-bundle></resource-bundle>-->
+
+</idea-plugin>
