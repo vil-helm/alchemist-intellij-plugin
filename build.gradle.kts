@@ -7,4 +7,5 @@ repositories { mavenCentral() }
 
 intellij {
     version = "2019.1"
+    setPlugins("gradle")
 }
