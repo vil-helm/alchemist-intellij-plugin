@@ -5,6 +5,7 @@ import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
+import org.jetbrains.plugins.gradle.util.GradleConstants
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
 import java.io.File
@@ -35,6 +36,10 @@ abstract class TemplateGradleModuleBuilder(private val templateDirectoryPath: St
 
     // This function copies the template files to the created root directory.
     private fun copyTemplateFilesTo(rootDirectoryPath: String) {
+        // Delete groovy files in the project.
+        File(rootDirectoryPath, GradleConstants.DEFAULT_SCRIPT_NAME).delete()
+        File(rootDirectoryPath, GradleConstants.SETTINGS_FILE_NAME).delete()
+
         // Get all the resources from the template directory.
         Reflections(templateDirectoryPath, ResourcesScanner()).getResources(Pattern.compile(".*"))
             // Create a map that associates the relative path to the input stream of the resource.
