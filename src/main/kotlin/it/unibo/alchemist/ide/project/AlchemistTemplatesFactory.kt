@@ -1,4 +1,4 @@
-package it.unibo.ide.project
+package it.unibo.alchemist.ide.project
 
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.WizardContext
