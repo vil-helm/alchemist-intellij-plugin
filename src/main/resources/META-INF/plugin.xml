@@ -19,8 +19,4 @@
         <projectTemplatesFactory implementation="it.unibo.alchemist.ide.project.AlchemistTemplatesFactory"/>
     </extensions>
 
-    <extensionPoints>
-        <extensionPoint name="templateBuilder" interface="com.intellij.ide.util.projectWizard.ModuleBuilder" />
-    </extensionPoints>
-
 </idea-plugin>
