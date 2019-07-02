@@ -5,7 +5,7 @@ plugins {
 
 repositories { mavenCentral() }
 
-dependencies { compile("org.reflections", "reflections", "0.9.11") }
+dependencies { implementation("org.reflections", "reflections", "0.9.11") }
 
 intellij {
     version = "2019.1"
