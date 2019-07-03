@@ -31,4 +31,5 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
 
     override fun getGroups(): Array<String> = arrayOf(ALCHEMIST_GROUP)
 
+    override fun getGroupIcon(group: String): Icon = Icons.ALCHEMIST_LOGO
 }
