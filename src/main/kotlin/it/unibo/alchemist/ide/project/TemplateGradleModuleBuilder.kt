@@ -6,12 +6,10 @@ import com.intellij.openapi.module.Module
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.util.IconLoader
 import icons.Icons
+import io.github.classgraph.ClassGraph
 import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
 import org.jetbrains.plugins.gradle.util.GradleConstants
-import org.reflections.Reflections
-import org.reflections.scanners.ResourcesScanner
 import java.io.File
-import java.util.regex.Pattern
 import javax.swing.Icon
 
 class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleBuilder() {
@@ -23,7 +21,7 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
     // This value represents the path to the template icon.
     private val templateIconPath = """$templateDirectoryPath/icon.svg"""
     // This value represents the path to the template contents.
-    private val templateContentsPath = """$templateDirectoryPath/contents/"""
+    private val templateContentsPath = """$templateDirectoryPath/contents"""
 
     override fun getBuilderId(): String = """alchemist.template.builder [$presentableName]"""
 
@@ -56,17 +54,17 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
         File(rootDirectoryPath, GradleConstants.SETTINGS_FILE_NAME).delete()
 
         // Get all the resources from the template directory.
-        Reflections(templateContentsPath, ResourcesScanner()).getResources(Pattern.compile(".*"))
-            // Create a map that associates the relative path to the input stream of the resource.
-            .associate { resourcesPath ->
-                resourcesPath.removePrefix(templateContentsPath) to resourcesPath.asResourceStream()
-                // For each resource, create the destination file (and all the necessary directories) then copy the data into it.
-            }.forEach { (relativePath, data) ->
-                File(rootDirectoryPath, relativePath).apply {
+        ClassGraph().whitelistPackages(templateContentsPath).scan().allResources
+            // For each resource...
+            .forEach { resource ->
+                // ...create the destination file...
+                File(rootDirectoryPath, resource.path.removePrefix(templateContentsPath)).apply {
+                    // ...(and all the necessary directories)...
                     parentFile.mkdirs()
-                    data.use {
+                    // ...then copy the data into it.
+                    resource.use { resourceData ->
                         outputStream().use { file ->
-                            data.copyTo(file)
+                            resourceData.open().copyTo(file)
                         }
                     }
                 }
@@ -75,9 +73,5 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
 
     // This function makes it easier to obtain a resource from a string.
     private fun String.asResourceURL() = this@TemplateGradleModuleBuilder::class.java.classLoader.getResource(this)
-
-    // This function makes it easier to obtain a resource as a stream from a string.
-    private fun String.asResourceStream() =
-        this@TemplateGradleModuleBuilder::class.java.classLoader.getResourceAsStream(this)
 
 }

@@ -5,9 +5,7 @@ import com.intellij.platform.ProjectTemplate
 import com.intellij.platform.ProjectTemplatesFactory
 import com.intellij.platform.templates.BuilderBasedTemplate
 import icons.Icons
-import org.reflections.Reflections
-import org.reflections.scanners.ResourcesScanner
-import java.util.regex.Pattern
+import io.github.classgraph.ClassGraph
 import javax.swing.Icon
 
 class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
@@ -23,13 +21,14 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
     // Get the templates from the resources.
     override fun createTemplates(group: String?, context: WizardContext): Array<ProjectTemplate> =
         // Get all the resources from the templates directory.
-        Reflections(TEMPLATES_FOLDER, ResourcesScanner()).getResources(Pattern.compile(".*")).map {
+        ClassGraph().whitelistPackages(TEMPLATES_FOLDER).scan().allResources.map { resource ->
             // Get sub-folders of templates directory
-            it.substring(0, it.indexOf("/", TEMPLATES_FOLDER.length + 1))
+            resource.path.substring(0, resource.path.indexOf("/", TEMPLATES_FOLDER.length + 1))
             // Get the builders from those sub-folders anc create the templates.
         }.toSet().map { BuilderBasedTemplate(TemplateGradleModuleBuilder(it)) }.toTypedArray()
 
     override fun getGroups(): Array<String> = arrayOf(ALCHEMIST_GROUP)
 
     override fun getGroupIcon(group: String): Icon = Icons.ALCHEMIST_LOGO
+
 }

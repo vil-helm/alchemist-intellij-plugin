@@ -3,9 +3,13 @@ plugins {
     id("org.jetbrains.intellij") version "0.4.9"
 }
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+}
 
-dependencies { implementation("org.reflections", "reflections", "0.9.11") }
+dependencies { 
+    implementation("io.github.classgraph","classgraph","4.8.43")
+}
 
 intellij {
     version = "2019.1"
