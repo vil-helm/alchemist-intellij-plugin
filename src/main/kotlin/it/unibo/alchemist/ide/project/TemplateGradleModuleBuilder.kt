@@ -5,6 +5,7 @@ import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.util.IconLoader
+import icons.Icons
 import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import org.reflections.Reflections
@@ -33,7 +34,8 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
     override fun getDescription(): String = templateDescriptionPath.asResourceURL()?.readText() ?: ""
 
     // This function returns the template icon from the resource or a default icon.
-    override fun getNodeIcon(): Icon = IconLoader.getIcon(templateIconPath) // TODO: Add missing icon check
+    override fun getNodeIcon(): Icon =
+        if (templateIconPath.asResourceURL() != null) IconLoader.getIcon(templateIconPath) else Icons.ALCHEMIST_LOGO
 
     // This override removes the project id step from the wizard.
     override fun createWizardSteps(
