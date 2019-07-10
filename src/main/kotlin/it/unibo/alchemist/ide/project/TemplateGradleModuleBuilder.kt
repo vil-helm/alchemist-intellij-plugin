@@ -42,13 +42,10 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
     ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(1, 2)
 
     // This override copies the template files in the new module.
-    override fun setupModule(module: Module) = super.setupModule(module).apply {
-        // Copy the template files.
-        copyTemplateFilesTo(contentEntryPath ?: return)
-    }
+    override fun setupModule(module: Module) = super.setupModule(module).also {
+        // Store the module directory.
+        val rootDirectoryPath = contentEntryPath ?: return
 
-    // This function copies the template files to the created root directory.
-    private fun copyTemplateFilesTo(rootDirectoryPath: String) {
         // Delete groovy files in the project.
         File(rootDirectoryPath, GradleConstants.DEFAULT_SCRIPT_NAME).delete()
         File(rootDirectoryPath, GradleConstants.SETTINGS_FILE_NAME).delete()
@@ -61,7 +58,7 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
                 File(rootDirectoryPath, resource.path.removePrefix(templateContentsPath)).apply {
                     // ...(and all the necessary directories)...
                     parentFile.mkdirs()
-                    // ...then copy the data into it.
+                    // ...then copy the data into the file.
                     resource.use { resourceData ->
                         outputStream().use { file ->
                             resourceData.open().copyTo(file)
