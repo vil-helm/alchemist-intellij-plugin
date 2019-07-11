@@ -12,7 +12,7 @@ import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
 import javax.swing.Icon
 
-class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleBuilder() {
+class AlchemistTemplateModuleBuilder(templateDirectoryPath: String) : GradleModuleBuilder() {
 
     // This value represents the path to the file that contains the template name.
     private val templateNamePath = """$templateDirectoryPath/name.txt"""
@@ -69,6 +69,6 @@ class TemplateGradleModuleBuilder(templateDirectoryPath: String) : GradleModuleB
     }
 
     // This function makes it easier to obtain a resource from a string.
-    private fun String.asResourceURL() = this@TemplateGradleModuleBuilder::class.java.classLoader.getResource(this)
+    private fun String.asResourceURL() = this@AlchemistTemplateModuleBuilder::class.java.classLoader.getResource(this)
 
 }
