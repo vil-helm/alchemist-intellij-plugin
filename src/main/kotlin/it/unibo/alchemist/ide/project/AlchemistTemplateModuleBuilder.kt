@@ -26,14 +26,14 @@ class AlchemistTemplateModuleBuilder(templateDirectoryPath: String) : GradleModu
     override fun getBuilderId(): String = """alchemist.template.builder [$presentableName]"""
 
     // This function returns the template name from the resource or an empty string.
-    override fun getPresentableName(): String = templateNamePath.asResourceURL()?.readText() ?: ""
+    override fun getPresentableName(): String = readResourceText(templateNamePath)
 
     // This function returns the template description from the resource or an empty string.
-    override fun getDescription(): String = templateDescriptionPath.asResourceURL()?.readText() ?: ""
+    override fun getDescription(): String = readResourceText(templateDescriptionPath)
 
     // This function returns the template icon from the resource or a default icon.
     override fun getNodeIcon(): Icon =
-        if (templateIconPath.asResourceURL() != null) IconLoader.getIcon(templateIconPath) else Icons.ALCHEMIST_LOGO
+        if (getResource(templateIconPath) != null) IconLoader.getIcon(templateIconPath) else Icons.ALCHEMIST_LOGO
 
     // This override removes the project id step from the wizard.
     override fun createWizardSteps(
@@ -68,7 +68,10 @@ class AlchemistTemplateModuleBuilder(templateDirectoryPath: String) : GradleModu
             }
     }
 
-    // This function makes it easier to obtain a resource from a string.
-    private fun String.asResourceURL() = this@AlchemistTemplateModuleBuilder::class.java.classLoader.getResource(this)
+    // This function makes it easier to obtain a resource from a string path.
+    private fun getResource(path: String) = this::class.java.classLoader.getResource(path)
+
+    // This function returns the text from a resource or an empty string.
+    private fun readResourceText(path: String) = getResource(path)?.readText() ?: ""
 
 }
