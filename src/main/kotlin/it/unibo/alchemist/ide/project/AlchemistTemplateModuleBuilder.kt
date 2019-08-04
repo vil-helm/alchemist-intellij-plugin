@@ -1,10 +1,14 @@
 package it.unibo.alchemist.ide.project
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
+import com.intellij.ide.util.projectWizard.SettingsStep
 import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
+import com.intellij.openapi.projectRoots.JavaSdk
+import com.intellij.openapi.roots.ui.configuration.JdkComboBox
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
+import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel
 import com.intellij.openapi.util.IconLoader
 import icons.Icons
 import io.github.classgraph.ClassGraph
@@ -33,6 +37,37 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
         wizardContext: WizardContext,
         modulesProvider: ModulesProvider
     ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(0, 0)
+
+    // This override adds the project JDK field to the wizard.
+    override fun modifySettingsStep(settingsStep: SettingsStep): ModuleWizardStep? =
+        super.modifySettingsStep(settingsStep).also {
+
+            // Add the project JDK field if the project is in creation and it has not got a JDK.
+            if (!settingsStep.context.isCreatingNewProject || settingsStep.context.projectJdk != null) return@also
+
+            // Store the project. The project is probably null: it is being created.
+            val project = settingsStep.context.project
+
+            // Create the model for the combo box.
+            val jdkModel = ProjectSdksModel().apply {
+                // Initialize the model.
+                reset(project)
+            }
+
+            // Create the combo box for selecting the project JDK.
+            val jdkComboBox = JdkComboBox(jdkModel) { it is JavaSdk }.apply {
+
+                // Set the project JDK when a selection is made in the combo box.
+                addActionListener {
+                    settingsStep.context.projectJdk = selectedJdk
+                }
+
+            }
+
+            // Add the combo box to the GUI.
+            settingsStep.addSettingsField("Project JDK:", jdkComboBox)
+
+        }
 
     // This override copies the template files in the new module.
     override fun createModule(moduleModel: ModifiableModuleModel): Module = super.createModule(moduleModel).also {
