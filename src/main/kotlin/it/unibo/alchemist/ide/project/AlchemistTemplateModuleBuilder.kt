@@ -10,14 +10,21 @@ import com.intellij.openapi.roots.ui.configuration.JdkComboBox
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel
 import com.intellij.openapi.util.IconLoader
+import com.intellij.ui.layout.panel
 import icons.Icons
 import io.github.classgraph.ClassGraph
 import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
+import javax.swing.BorderFactory
 import javax.swing.Icon
 
 class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : GradleModuleBuilder() {
+
+    companion object {
+        // The Java minimum recommended version.
+        const val JAVA_MAJOR_VERSION = 11
+    }
 
     override fun getBuilderId(): String = """alchemist.template.builder [$presentableName]"""
 
@@ -64,8 +71,15 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
 
             }
 
-            // Add the combo box to the GUI.
-            settingsStep.addSettingsField("Project JDK:", jdkComboBox)
+            // Add the JDK field to the GUI.
+            settingsStep.addSettingsField("Project JDK:", panel {
+                row {
+                    jdkComboBox(growX, pushX, comment = """Using JDK $JAVA_MAJOR_VERSION or later is recommended.""")
+                }
+            }.apply {
+                // Fix the alignment.
+                border = BorderFactory.createEmptyBorder(-7, -11, -7, -11)
+            })
 
         }
 
