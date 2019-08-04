@@ -2,6 +2,7 @@ package it.unibo.alchemist.ide.project
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.WizardContext
+import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.util.IconLoader
@@ -34,9 +35,10 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
     ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(1, 2)
 
     // This override copies the template files in the new module.
-    override fun setupModule(module: Module) = super.setupModule(module).also {
+    override fun createModule(moduleModel: ModifiableModuleModel): Module = super.createModule(moduleModel).also {
         // Store the module directory.
-        val rootDirectoryPath = contentEntryPath ?: return
+        val rootDirectoryPath = contentEntryPath
+            ?: throw IllegalStateException("The template cannot be initialized: the module path is missing.")
 
         // Delete groovy files in the project.
         File(rootDirectoryPath, GradleConstants.DEFAULT_SCRIPT_NAME).delete()
