@@ -32,7 +32,7 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
     override fun createWizardSteps(
         wizardContext: WizardContext,
         modulesProvider: ModulesProvider
-    ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(1, 2)
+    ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(0, 0)
 
     // This override copies the template files in the new module.
     override fun createModule(moduleModel: ModifiableModuleModel): Module = super.createModule(moduleModel).also {
