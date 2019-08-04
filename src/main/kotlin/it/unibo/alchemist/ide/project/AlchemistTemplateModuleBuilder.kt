@@ -14,6 +14,7 @@ import com.intellij.ui.layout.panel
 import icons.Icons
 import io.github.classgraph.ClassGraph
 import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
+import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
 import javax.swing.BorderFactory
@@ -83,8 +84,14 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
 
         }
 
-    // This override copies the template files in the new module.
+    // This override copies the template files in the new module and sets the Gradle configurations
     override fun createModule(moduleModel: ModifiableModuleModel): Module = super.createModule(moduleModel).also {
+
+        // Enable the auto-import for the Gradle build.
+        externalProjectSettings.isUseAutoImport = true
+        // Use the default Gradle wrapper.
+        externalProjectSettings.distributionType = DistributionType.DEFAULT_WRAPPED
+
         // Store the module directory.
         val rootDirectoryPath = contentEntryPath
             ?: throw IllegalStateException("The template cannot be initialized: the module path is missing.")
