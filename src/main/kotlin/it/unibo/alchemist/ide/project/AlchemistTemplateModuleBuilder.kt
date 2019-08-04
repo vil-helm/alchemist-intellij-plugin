@@ -12,28 +12,20 @@ import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
 import javax.swing.Icon
 
-class AlchemistTemplateModuleBuilder(templateDirectoryPath: String) : GradleModuleBuilder() {
-
-    // This value represents the path to the file that contains the template name.
-    private val templateNamePath = """$templateDirectoryPath/name.txt"""
-    // This value represents the path to the file that contains the template description.
-    private val templateDescriptionPath = """$templateDirectoryPath/description.html"""
-    // This value represents the path to the template icon.
-    private val templateIconPath = """$templateDirectoryPath/icon.svg"""
-    // This value represents the path to the template contents.
-    private val templateContentsPath = """$templateDirectoryPath/contents"""
+class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : GradleModuleBuilder() {
 
     override fun getBuilderId(): String = """alchemist.template.builder [$presentableName]"""
 
     // This function returns the template name from the resource or an empty string.
-    override fun getPresentableName(): String = readResourceText(templateNamePath)
+    override fun getPresentableName(): String = readResourceText("""$templateDirectoryPath/name.txt""")
 
     // This function returns the template description from the resource or an empty string.
-    override fun getDescription(): String = readResourceText(templateDescriptionPath)
+    override fun getDescription(): String = readResourceText("""$templateDirectoryPath/description.html""")
 
     // This function returns the template icon from the resource or a default icon.
-    override fun getNodeIcon(): Icon =
-        if (getResource(templateIconPath) != null) IconLoader.getIcon(templateIconPath) else Icons.ALCHEMIST_LOGO
+    override fun getNodeIcon(): Icon = with("""$templateDirectoryPath/icon.svg""") {
+        if (getResource(this) != null) IconLoader.getIcon(this) else Icons.ALCHEMIST_LOGO
+    }
 
     // This override removes the project id step from the wizard.
     override fun createWizardSteps(
@@ -49,6 +41,9 @@ class AlchemistTemplateModuleBuilder(templateDirectoryPath: String) : GradleModu
         // Delete groovy files in the project.
         File(rootDirectoryPath, GradleConstants.DEFAULT_SCRIPT_NAME).delete()
         File(rootDirectoryPath, GradleConstants.SETTINGS_FILE_NAME).delete()
+
+        // The path to the template contents.
+        val templateContentsPath = """$templateDirectoryPath/contents"""
 
         // Get all the resources from the template directory.
         ClassGraph().whitelistPackages(templateContentsPath).scan().allResources
