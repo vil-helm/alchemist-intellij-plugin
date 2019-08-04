@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") version "1.3.31"
     id("org.jetbrains.intellij") version "0.4.9"
@@ -14,4 +16,8 @@ dependencies {
 intellij {
     version = "2019.1"
     setPlugins("gradle")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
