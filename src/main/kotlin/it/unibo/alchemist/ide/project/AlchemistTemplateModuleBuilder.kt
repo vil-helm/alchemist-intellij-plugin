@@ -6,6 +6,7 @@ import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.projectRoots.JavaSdk
+import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.roots.ui.configuration.JdkComboBox
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel
@@ -100,6 +101,15 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                 // Fix the alignment.
                 border = BorderFactory.createEmptyBorder(-7, -11, -7, -11)
             })
+
+            // Store the user-added project JDK in the IDE list to make it valid.
+            addListener {
+                ProjectJdkTable.getInstance().apply {
+                    val jdk = settingsStep.context.projectJdk
+                    if (jdk?.homePath in allJdks.map { it.homePath }) return@apply
+                    addJdk(jdk)
+                }
+            }
 
         }
 
