@@ -19,6 +19,7 @@ import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
 import javax.swing.BorderFactory
 import javax.swing.Icon
+import javax.swing.JButton
 
 class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : GradleModuleBuilder() {
 
@@ -74,6 +75,16 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                 selectedJdk = IntRange(0, itemCount - 1).mapNotNull { getItemAt(it).jdk }.sortedBy { it.versionString }
                     .firstOrNull { it.versionString!! >= """java version "$JAVA_MAJOR_VERSION.0.0"""" }
                     ?: selectedJdk
+
+                // Configure the button for adding JDK from the file system.
+                setSetupButton(
+                    JButton("New.."),
+                    project,
+                    jdkModel,
+                    JdkComboBox.NoneJdkComboBoxItem(),
+                    null,
+                    false
+                )
 
             }
 
