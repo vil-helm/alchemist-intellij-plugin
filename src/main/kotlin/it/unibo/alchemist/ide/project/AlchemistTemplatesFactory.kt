@@ -15,7 +15,6 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
         private const val ALCHEMIST_GROUP = "Alchemist"
 
         private const val TEMPLATES_FOLDER = "it/unibo/alchemist/templates"
-
     }
 
     // Get the templates from the resources.
@@ -30,5 +29,4 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
     override fun getGroups(): Array<String> = arrayOf(ALCHEMIST_GROUP)
 
     override fun getGroupIcon(group: String): Icon = Icons.ALCHEMIST_LOGO
-
 }

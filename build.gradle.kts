@@ -12,8 +12,8 @@ repositories {
     mavenCentral()
 }
 
-dependencies { 
-    implementation("io.github.classgraph","classgraph","4.8.43")
+dependencies {
+    implementation("io.github.classgraph", "classgraph", "4.8.43")
 }
 
 intellij {
@@ -22,7 +22,6 @@ intellij {
 }
 
 buildScan {
-
 }
 
 gitSemVer {

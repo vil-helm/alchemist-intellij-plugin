@@ -86,7 +86,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                     null,
                     false
                 )
-
             }
 
             // Add the JDK field to the GUI.
@@ -110,7 +109,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                     addJdk(jdk)
                 }
             }
-
         }
 
     // This override copies the template files in the new module and sets the Gradle configurations
@@ -155,5 +153,4 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
 
     // This function returns the text from a resource or an empty string.
     private fun readResourceText(path: String) = getResource(path)?.readText() ?: ""
-
 }
