@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.dokka") version "0.9.18"
     id("org.jetbrains.intellij") version "0.4.9"
     id("com.gradle.build-scan") version "2.4.2"
+    id("de.fayard.buildSrcVersions") version "0.6.1"
     id("org.danilopianini.git-sensitive-semantic-versioning") version "0.2.1"
 }
 
