@@ -12,8 +12,7 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin: String = "0.2.1"
-             // available: "0.2.2"
+    const val org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin: String = "0.2.2"
 
     const val org_jlleitschuh_gradle_ktlint_gradle_plugin: String = "8.2.0"
 
