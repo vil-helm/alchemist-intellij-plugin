@@ -19,11 +19,11 @@ object Versions {
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.6.1"
 
-    const val org_jetbrains_kotlin_jvm_gradle_plugin: String = "1.3.31" // available: "1.3.50"
+    const val org_jetbrains_kotlin_jvm_gradle_plugin: String = "1.3.50"
 
     const val unzipped_com_jetbrains_plugins_gradle: String = "ideaIC-IC-191.6183.87-withSources"
 
-    const val kotlin_scripting_compiler_embeddable: String = "1.3.31" // available: "1.3.50"
+    const val kotlin_scripting_compiler_embeddable: String = "1.3.50"
 
     const val org_jetbrains_intellij_gradle_plugin: String = "0.4.9" // available: "0.4.10"
 
