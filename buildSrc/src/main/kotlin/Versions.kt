@@ -30,7 +30,7 @@ object Versions {
 
     const val org_jetbrains_dokka_gradle_plugin: String = "0.9.18"
 
-    const val classgraph: String = "4.8.43" // available: "4.8.47"
+    const val classgraph: String = "4.8.47"
 
     const val ideaic: String = "2019.1"
 
