@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.31"
-    id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
-    id("org.jetbrains.dokka") version "0.9.18"
-    id("org.jetbrains.intellij") version "0.4.9"
-    id("com.gradle.build-scan") version "2.4.2"
-    id("de.fayard.buildSrcVersions") version "0.6.1"
-    id("org.danilopianini.git-sensitive-semantic-versioning") version "0.2.1"
+    kotlin("jvm") version Versions.kotlin_scripting_compiler_embeddable
+    id("org.jlleitschuh.gradle.ktlint") version Versions.org_jlleitschuh_gradle_ktlint_gradle_plugin
+    id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
+    id("org.jetbrains.intellij") version Versions.org_jetbrains_intellij_gradle_plugin
+    id("com.gradle.build-scan") version Versions.com_gradle_build_scan_gradle_plugin
+    id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
+    id("org.danilopianini.git-sensitive-semantic-versioning") version Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
 }
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.classgraph", "classgraph", "4.8.43")
+    implementation(Libs.classgraph)
 }
 
 intellij {
