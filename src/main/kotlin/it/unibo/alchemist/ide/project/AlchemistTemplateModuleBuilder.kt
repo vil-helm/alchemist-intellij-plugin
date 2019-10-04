@@ -138,7 +138,8 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                 File(rootDirectoryPath, resource.path.removePrefix(templateContentsPath)).apply {
                     // ...(and all the necessary directories)...
                     parentFile.mkdirs()
-                    // ...then copy the data into the file.
+                    // ...then, if there are data, copy it into the file.
+                    if (name.toLowerCase() == "dummy") return@apply
                     resource.use { resourceData ->
                         outputStream().use { file ->
                             resourceData.open().copyTo(file)
