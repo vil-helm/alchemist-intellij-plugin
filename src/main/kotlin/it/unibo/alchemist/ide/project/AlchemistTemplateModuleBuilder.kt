@@ -1,8 +1,10 @@
 package it.unibo.alchemist.ide.project
 
+import com.intellij.execution.RunManager
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.SettingsStep
 import com.intellij.ide.util.projectWizard.WizardContext
+import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.projectRoots.JavaSdk
@@ -14,6 +16,7 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.ui.layout.panel
 import icons.Icons
 import io.github.classgraph.ClassGraph
+import org.jetbrains.plugins.gradle.service.execution.GradleExternalTaskConfigurationType
 import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
 import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
@@ -112,42 +115,65 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
         }
 
     // This override copies the template files in the new module and sets the Gradle configurations
-    override fun createModule(moduleModel: ModifiableModuleModel): Module = super.createModule(moduleModel).also {
+    override fun createModule(moduleModel: ModifiableModuleModel): Module =
+        super.createModule(moduleModel).also { module ->
 
-        // Enable the auto-import for the Gradle build.
-        externalProjectSettings.isUseAutoImport = true
-        // Use the default Gradle wrapper.
-        externalProjectSettings.distributionType = DistributionType.DEFAULT_WRAPPED
+            // Enable the auto-import for the Gradle build.
+            externalProjectSettings.isUseAutoImport = true
+            // Use the default Gradle wrapper.
+            externalProjectSettings.distributionType = DistributionType.DEFAULT_WRAPPED
 
-        // Store the module directory.
-        val rootDirectoryPath = contentEntryPath
-            ?: throw IllegalStateException("The template cannot be initialized: the module path is missing.")
+            // Store the module directory.
+            val rootDirectoryPath = contentEntryPath
+                ?: throw IllegalStateException("The template cannot be initialized: the module path is missing.")
 
-        // Delete groovy files in the project.
-        File(rootDirectoryPath, GradleConstants.DEFAULT_SCRIPT_NAME).delete()
-        File(rootDirectoryPath, GradleConstants.SETTINGS_FILE_NAME).delete()
+            // Delete groovy files in the project.
+            File(rootDirectoryPath, GradleConstants.DEFAULT_SCRIPT_NAME).delete()
+            File(rootDirectoryPath, GradleConstants.SETTINGS_FILE_NAME).delete()
 
-        // The path to the template contents.
-        val templateContentsPath = """$templateDirectoryPath/contents"""
+            // The path to the template contents.
+            val templateContentsPath = """$templateDirectoryPath/contents"""
 
-        // Get all the resources from the template directory.
-        ClassGraph().whitelistPackages(templateContentsPath).scan().allResources
-            // For each resource...
-            .forEach { resource ->
-                // ...create the destination file...
-                File(rootDirectoryPath, resource.path.removePrefix(templateContentsPath)).apply {
-                    // ...(and all the necessary directories)...
-                    parentFile.mkdirs()
-                    // ...then, if there are data, copy it into the file.
-                    if (name.toLowerCase() == "dummy") return@apply
-                    resource.use { resourceData ->
-                        outputStream().use { file ->
-                            resourceData.open().copyTo(file)
+            // Get all the resources from the template directory.
+            ClassGraph().whitelistPackages(templateContentsPath).scan().allResources
+                // For each resource...
+                .forEach { resource ->
+                    // ...create the destination file...
+                    File(rootDirectoryPath, resource.path.removePrefix(templateContentsPath)).apply {
+                        // ...(and all the necessary directories)...
+                        parentFile.mkdirs()
+                        // ...then, if there are data, copy it into the file.
+                        if (name.toLowerCase() == "dummy") return@apply
+                        resource.use { resourceData ->
+                            outputStream().use { file ->
+                                resourceData.open().copyTo(file)
+                            }
                         }
                     }
                 }
+
+            // Prepare to add a run configuration.
+            RunManager.getInstance(module.project).apply {
+                // Create a Gradle run configuration with a name, ...
+                val configuration = createConfiguration(
+                    "Run Alchemist Simulator with Gradle for ${module.name}",
+                    GradleExternalTaskConfigurationType().factory
+                ).also { configuration ->
+                    // ... the module path and a Gradle task.
+                    val runConfiguration = configuration.configuration
+                    if (runConfiguration is ExternalSystemRunConfiguration) {
+                        runConfiguration.settings.apply {
+                            externalProjectPath = rootDirectoryPath
+                            taskNames = listOf(":run")
+                        }
+                    }
+                }
+
+                // Add and select the new Gradle run configuration.
+                addConfiguration(configuration)
+                selectedConfiguration = configuration
             }
-    }
+        }
 
     // This function makes it easier to obtain a resource from a string path.
     private fun getResource(path: String) = this::class.java.classLoader.getResource(path)
