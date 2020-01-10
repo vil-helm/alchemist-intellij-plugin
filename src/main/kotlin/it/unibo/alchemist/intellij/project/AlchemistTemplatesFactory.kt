@@ -14,7 +14,7 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
 
         private const val ALCHEMIST_GROUP = "Alchemist"
 
-        private const val TEMPLATES_FOLDER = "it/unibo/alchemist/templates"
+        private const val TEMPLATES_FOLDER = "it/unibo/alchemist/intellij/templates"
     }
 
     // Get the templates from the resources.
