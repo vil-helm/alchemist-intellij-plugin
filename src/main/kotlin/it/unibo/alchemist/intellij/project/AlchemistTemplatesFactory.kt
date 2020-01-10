@@ -24,11 +24,7 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
             // Get sub-folders of templates directory
             resource.path.substring(0, resource.path.indexOf("/", TEMPLATES_FOLDER.length + 1))
             // Get the builders from those sub-folders anc create the templates.
-        }.toSet().map { BuilderBasedTemplate(
-            AlchemistTemplateModuleBuilder(
-                it
-            )
-        ) }.toTypedArray()
+        }.toSet().map { BuilderBasedTemplate(AlchemistTemplateModuleBuilder(it)) }.toTypedArray()
 
     override fun getGroups(): Array<String> = arrayOf(ALCHEMIST_GROUP)
 
