@@ -41,7 +41,7 @@ When the plugin is released, it will be possible to download it from the marketp
 
 If you want to create a project with the plugin, you just follow the instructions below:
 
-1. Open IntellJ.  
+1. Open IntelliJ.  
 Be sure to be on the welcome screen of Intellij. If you are not on it, you probably are on a project window, so select _File_ and then _Close project_.    
 You must be here: ![IntelliJ Welcome Screen](https://www.jetbrains.com/help/img/idea/2018.2/ideaWelcomeScreen.png)
 
