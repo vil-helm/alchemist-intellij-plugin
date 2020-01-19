@@ -1,7 +1,7 @@
 Alchemist Plugin for IntelliJ
 =============================
 
-You can use this plugin to work on [Alchemsist](https://github.com/AlchemistSimulator/Alchemist) in Intellij.
+You can use this plugin to work on [Alchemsist](https://github.com/AlchemistSimulator/Alchemist) in IntelliJ.
 
 Currently, it is possible to work with two templates: Protelis and Sapere.
 
@@ -16,14 +16,14 @@ If you want to add a template to the plugin, you just follow the instructions be
 It makes sense call it with the template name.
 
 2. Create a _name.txt_ file in the template root folder.  
-Write in it the template name which are going to be shown in Intellij.
+Write in it the template name which are going to be shown in IntelliJ.
 
 3. Optionally, create a _icon.svg_ file in the template root folder. Don't set _width_ and _height_ tag.  
-This is the template icon which are going to be shown in Intellij.  
+This is the template icon which are going to be shown in IntelliJ.  
 If you skip this point, Alchemist icon are going to be use.
 
 4. Optionally, create a _description.html_ file in the template root folder.  
-This is the template description which are going to be shown in Intellij.  
+This is the template description which are going to be shown in IntelliJ.  
 If you skip this point, no description are going to be shown.
 
 5. Create the _contents_ folder in the template root folder. Add in it the template project structure.  
@@ -42,7 +42,7 @@ When the plugin is released, it will be possible to download it from the marketp
 If you want to create a project with the plugin, you just follow the instructions below:
 
 1. Open IntelliJ.  
-Be sure to be on the welcome screen of Intellij. If you are not on it, you probably are on a project window, so select _File_ and then _Close project_.    
+Be sure to be on the welcome screen of IntelliJ. If you are not on it, you probably are on a project window, so select _File_ and then _Close project_.    
 You must be here: ![IntelliJ Welcome Screen](https://www.jetbrains.com/help/img/idea/2018.2/ideaWelcomeScreen.png)
 
 2. Select _Create New Project_.  
