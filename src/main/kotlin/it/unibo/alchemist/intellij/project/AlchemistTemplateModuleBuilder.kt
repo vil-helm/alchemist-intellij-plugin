@@ -95,9 +95,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
             settingsStep.addSettingsField("Project JDK:", panel {
                 row {
                     jdkComboBox(growX, pushX, comment = """Using JDK $JAVA_MAJOR_VERSION or later is recommended.""")
-                    right {
-                        jdkComboBox.setUpButton()
-                    }
                 }
             }.apply {
                 // Fix the alignment.

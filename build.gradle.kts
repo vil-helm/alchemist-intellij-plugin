@@ -19,8 +19,7 @@ dependencies {
 }
 
 intellij {
-    version = "2019.1"
-    setPlugins("gradle")
+    setPlugins("java", "gradle", "gradle-java")
 }
 
 buildScan {
