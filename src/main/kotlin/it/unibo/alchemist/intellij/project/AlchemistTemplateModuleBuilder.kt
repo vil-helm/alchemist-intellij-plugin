@@ -21,7 +21,6 @@ import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
 import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
-import javax.swing.BorderFactory
 import javax.swing.Icon
 import javax.swing.JButton
 
@@ -96,9 +95,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                 row {
                     jdkComboBox(growX, pushX, comment = """Using JDK $JAVA_MAJOR_VERSION or later is recommended.""")
                 }
-            }.apply {
-                // Fix the alignment.
-                border = BorderFactory.createEmptyBorder(-7, -11, -7, -11)
             })
 
             // Store the user-added project JDK in the IDE list to make it valid.
