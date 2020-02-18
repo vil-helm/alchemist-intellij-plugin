@@ -18,13 +18,13 @@ import com.intellij.ui.layout.panel
 import icons.Icons
 import io.github.classgraph.ClassGraph
 import org.jetbrains.plugins.gradle.service.execution.GradleExternalTaskConfigurationType
-import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
+import org.jetbrains.plugins.gradle.service.project.wizard.AbstractGradleModuleBuilder
 import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
 import javax.swing.Icon
 
-class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : GradleModuleBuilder() {
+class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : AbstractGradleModuleBuilder() {
 
     companion object {
         // The Java minimum recommended version.
@@ -48,7 +48,9 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
     override fun createWizardSteps(
         wizardContext: WizardContext,
         modulesProvider: ModulesProvider
-    ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(0, 0)
+    ): Array<ModuleWizardStep> = ModuleWizardStep.EMPTY_ARRAY.apply {
+        setWizardContext(wizardContext)
+    }
 
     // This override adds the project JDK field to the wizard.
     override fun modifySettingsStep(settingsStep: SettingsStep): ModuleWizardStep? =
@@ -97,8 +99,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
     override fun createModule(moduleModel: ModifiableModuleModel): Module =
         super.createModule(moduleModel).also { module ->
 
-            // Enable the auto-import for the Gradle build.
-            externalProjectSettings.isUseAutoImport = true
             // Use the default Gradle wrapper.
             externalProjectSettings.distributionType = DistributionType.DEFAULT_WRAPPED
 
