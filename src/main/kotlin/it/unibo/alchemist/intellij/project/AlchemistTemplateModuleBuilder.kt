@@ -4,6 +4,7 @@ import com.intellij.execution.RunManager
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.SettingsStep
 import com.intellij.ide.util.projectWizard.WizardContext
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
@@ -22,7 +23,6 @@ import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
 import javax.swing.Icon
-import javax.swing.JButton
 
 class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : GradleModuleBuilder() {
 
@@ -67,7 +67,12 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
             }
 
             // Create the combo box for selecting the project JDK.
-            val jdkComboBox = JdkComboBox(jdkModel) { it is JavaSdk }.apply {
+            val jdkComboBox = JdkComboBox(project, jdkModel, { it is JavaSdk }, null, null) {
+                // Store the user-added JDK in the IDE list to make it valid.
+                ApplicationManager.getApplication().runWriteAction {
+                    ProjectJdkTable.getInstance().addJdk(it)
+                }
+            }.apply {
 
                 // Set the project JDK when a selection is made in the combo box.
                 addActionListener {
@@ -78,16 +83,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                 selectedJdk = IntRange(0, itemCount - 1).mapNotNull { getItemAt(it).jdk }.sortedBy { it.versionString }
                     .firstOrNull { it.versionString!! >= """java version "$JAVA_MAJOR_VERSION.0.0"""" }
                     ?: selectedJdk
-
-                // Configure the button for adding JDK from the file system.
-                setSetupButton(
-                    JButton("New.."),
-                    project,
-                    jdkModel,
-                    JdkComboBox.NoneJdkComboBoxItem(),
-                    null,
-                    false
-                )
             }
 
             // Add the JDK field to the GUI.
@@ -96,15 +91,6 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                     jdkComboBox(growX, pushX, comment = """Using JDK $JAVA_MAJOR_VERSION or later is recommended.""")
                 }
             })
-
-            // Store the user-added project JDK in the IDE list to make it valid.
-            addListener {
-                ProjectJdkTable.getInstance().apply {
-                    val jdk = settingsStep.context.projectJdk
-                    if (jdk?.homePath in allJdks.map { it.homePath }) return@apply
-                    addJdk(jdk)
-                }
-            }
         }
 
     // This override copies the template files in the new module and sets the Gradle configurations
