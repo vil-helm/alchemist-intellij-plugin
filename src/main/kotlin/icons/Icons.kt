@@ -6,5 +6,5 @@ import javax.swing.Icon
 
 object Icons {
 
-    val ALCHEMIST_LOGO: Icon = IconLoader.getIcon("it/unibo/alchemist/intellij/icons/alchemist_logo.svg")
+    val ALCHEMIST_LOGO: Icon = IconLoader.getIcon("/it/unibo/alchemist/intellij/icons/alchemist_logo.svg")
 }

@@ -41,7 +41,7 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
 
     // This function returns the template icon from the resource or a default icon.
     override fun getNodeIcon(): Icon = with("""$templateDirectoryPath/icon.svg""") {
-        if (getResource(this) != null) IconLoader.getIcon(this) else Icons.ALCHEMIST_LOGO
+        if (getResource(this) != null) IconLoader.getIcon("/$this") else Icons.ALCHEMIST_LOGO
     }
 
     // This override removes the project id step from the wizard.
