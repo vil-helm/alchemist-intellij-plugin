@@ -2,14 +2,24 @@
     <id>it.unibo.alchemist</id>
 
     <name>Alchemist</name>
-    <!--<description></description>-->
+
+    <description><![CDATA[
+        <p>Adds support for <a href="https://github.com/AlchemistSimulator/Alchemist">Alchemist</a> develop.</p>
+        <br>
+        <p>Currently, it is possible to work with two templates: <a href="https://protelis.github.io/">Protelis</a> and Sapere.</p>
+        <br>
+        <hr>
+        <p>For use instruction, look at this <a href="https://github.com/vil-helm/alchemist-intellij-plugin/blob/master/README.md">guide</a>.</p>
+    ]]></description>
 
     <vendor></vendor>
 
-    <version>0.1.0</version>
-    <change-notes>Initial state of the plugin. No functionality.</change-notes>
+    <!--<version>1.0.0</version>-->
+    <!--<idea-version since-build="201.5616"/>-->
 
-    <!--<idea-version/>-->
+    <change-notes><![CDATA[
+        Now, it is possible to create a project and work with two templates: <a href="https://protelis.github.io/">Protelis</a> and Sapere.
+    ]]></change-notes>
 
     <!--<resource-bundle></resource-bundle>-->
 
