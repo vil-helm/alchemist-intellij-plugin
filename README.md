@@ -1,7 +1,7 @@
 Alchemist Plugin for IntelliJ
 =============================
 
-You can use this plugin to work on [Alchemist](https://github.com/AlchemistSimulator/Alchemist) in IntelliJ.
+You can use this plugin to work on [Alchemist](https://alchemistsimulator.github.io) in IntelliJ.
 
 Currently, it is possible to work with two templates: [Protelis](https://protelis.github.io/) and Sapere.
 

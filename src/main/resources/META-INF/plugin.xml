@@ -4,7 +4,7 @@
     <name>Alchemist</name>
 
     <description><![CDATA[
-        <p>Adds support for <a href="https://github.com/AlchemistSimulator/Alchemist">Alchemist</a> develop.</p>
+        <p>Adds support for <a href="https://alchemistsimulator.github.io">Alchemist</a> develop.</p>
         <br>
         <p>Currently, it is possible to work with two templates: <a href="https://protelis.github.io/">Protelis</a> and Sapere.</p>
         <br>
