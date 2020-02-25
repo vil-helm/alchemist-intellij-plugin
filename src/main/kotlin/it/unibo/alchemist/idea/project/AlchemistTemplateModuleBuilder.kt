@@ -1,4 +1,4 @@
-package it.unibo.alchemist.intellij.project
+package it.unibo.alchemist.idea.project
 
 import com.intellij.execution.RunManager
 import com.intellij.ide.util.projectWizard.ModuleWizardStep

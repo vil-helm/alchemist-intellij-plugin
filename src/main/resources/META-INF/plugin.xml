@@ -26,7 +26,7 @@
     <depends>org.jetbrains.plugins.gradle</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectTemplatesFactory implementation="it.unibo.alchemist.intellij.project.AlchemistTemplatesFactory"/>
+        <projectTemplatesFactory implementation="it.unibo.alchemist.idea.project.AlchemistTemplatesFactory"/>
     </extensions>
 
 </idea-plugin>
