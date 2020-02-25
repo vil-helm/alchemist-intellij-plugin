@@ -12,7 +12,7 @@
         <p>For use instruction, look at this <a href="https://github.com/vil-helm/alchemist-intellij-plugin/blob/master/README.md">guide</a>.</p>
     ]]></description>
 
-    <vendor></vendor>
+    <vendor email="danilo.pianini@unibo.it" url="https://alchemistsimulator.github.io">Alma Mater Studiorum Università di Bologna</vendor>
 
     <!--<version>1.0.0</version>-->
     <!--<idea-version since-build="201.5616"/>-->
