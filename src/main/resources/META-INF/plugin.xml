@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>it.unibo.alchemist</id>
+    <id>it.unibo.alchemist.idea</id>
 
     <name>Alchemist</name>
 
