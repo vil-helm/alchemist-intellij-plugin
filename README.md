@@ -43,7 +43,6 @@ If you want to create a project with the plugin, you just follow the instruction
 
 1. Open IntelliJ.  
 Be sure to be on the welcome screen of IntelliJ. If you are not on it, you probably are on a project window, so select _File_ and then _Close project_.    
-You must be here: ![IntelliJ Welcome Screen](https://www.jetbrains.com/help/img/idea/2018.2/ideaWelcomeScreen.png)
 
 2. Select _Create New Project_.  
 It will open a new window.
