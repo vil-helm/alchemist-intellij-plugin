@@ -33,3 +33,9 @@ gitSemVer {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+    }
+}
