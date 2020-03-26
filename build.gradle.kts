@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version Versions.kotlin_scripting_compiler_embeddable
+    jacoco
     id("org.jlleitschuh.gradle.ktlint") version Versions.org_jlleitschuh_gradle_ktlint_gradle_plugin
     id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
     id("org.jetbrains.intellij") version Versions.org_jetbrains_intellij_gradle_plugin
