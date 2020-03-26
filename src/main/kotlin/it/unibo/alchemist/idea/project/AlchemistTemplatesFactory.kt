@@ -1,4 +1,4 @@
-package it.unibo.alchemist.intellij.project
+package it.unibo.alchemist.idea.project
 
 import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.platform.ProjectTemplate
@@ -14,7 +14,7 @@ class AlchemistTemplatesFactory : ProjectTemplatesFactory() {
 
         private const val ALCHEMIST_GROUP = "Alchemist"
 
-        private const val TEMPLATES_FOLDER = "it/unibo/alchemist/intellij/templates"
+        private const val TEMPLATES_FOLDER = "it/unibo/alchemist/idea/templates"
     }
 
     // Get the templates from the resources.

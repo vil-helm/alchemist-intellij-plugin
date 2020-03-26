@@ -1,22 +1,32 @@
 <idea-plugin>
-    <id>it.unibo.alchemist</id>
+    <id>it.unibo.alchemist.idea</id>
 
     <name>Alchemist</name>
-    <!--<description></description>-->
 
-    <vendor></vendor>
+    <description><![CDATA[
+        <p>Adds support for <a href="https://alchemistsimulator.github.io">Alchemist</a> develop.</p>
+        <br>
+        <p>Currently, it is possible to work with two templates: <a href="https://protelis.github.io/">Protelis</a> and Sapere.</p>
+        <br>
+        <hr>
+        <p>For use instruction, look at this <a href="https://github.com/vil-helm/alchemist-intellij-plugin/blob/master/README.md">guide</a>.</p>
+    ]]></description>
 
-    <version>0.1.0</version>
-    <change-notes>Initial state of the plugin. No functionality.</change-notes>
+    <vendor email="danilo.pianini@unibo.it" url="https://alchemistsimulator.github.io">Alma Mater Studiorum Università di Bologna</vendor>
 
-    <!--<idea-version/>-->
+    <!--<version>1.0.0</version>-->
+    <!--<idea-version since-build="201.5616"/>-->
+
+    <change-notes><![CDATA[
+        Now, it is possible to create a project and work with two templates: <a href="https://protelis.github.io/">Protelis</a> and Sapere.
+    ]]></change-notes>
 
     <!--<resource-bundle></resource-bundle>-->
 
     <depends>org.jetbrains.plugins.gradle</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectTemplatesFactory implementation="it.unibo.alchemist.intellij.project.AlchemistTemplatesFactory"/>
+        <projectTemplatesFactory implementation="it.unibo.alchemist.idea.project.AlchemistTemplatesFactory"/>
     </extensions>
 
 </idea-plugin>

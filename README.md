@@ -1,9 +1,9 @@
 Alchemist Plugin for IntelliJ
 =============================
 
-You can use this plugin to work on [Alchemist](https://github.com/AlchemistSimulator/Alchemist) in IntelliJ.
+You can use this plugin to work on [Alchemist](https://alchemistsimulator.github.io) in IntelliJ.
 
-Currently, it is possible to work with two templates: Protelis and Sapere.
+Currently, it is possible to work with two templates: [Protelis](https://protelis.github.io/) and Sapere.
 
 How to improve it
 -----------------
@@ -43,7 +43,6 @@ If you want to create a project with the plugin, you just follow the instruction
 
 1. Open IntelliJ.  
 Be sure to be on the welcome screen of IntelliJ. If you are not on it, you probably are on a project window, so select _File_ and then _Close project_.    
-You must be here: ![IntelliJ Welcome Screen](https://www.jetbrains.com/help/img/idea/2018.2/ideaWelcomeScreen.png)
 
 2. Select _Create New Project_.  
 It will open a new window.

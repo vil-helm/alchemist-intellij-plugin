@@ -1,9 +1,10 @@
-package it.unibo.alchemist.intellij.project
+package it.unibo.alchemist.idea.project
 
 import com.intellij.execution.RunManager
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.SettingsStep
 import com.intellij.ide.util.projectWizard.WizardContext
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
@@ -17,15 +18,13 @@ import com.intellij.ui.layout.panel
 import icons.Icons
 import io.github.classgraph.ClassGraph
 import org.jetbrains.plugins.gradle.service.execution.GradleExternalTaskConfigurationType
-import org.jetbrains.plugins.gradle.service.project.wizard.GradleModuleBuilder
+import org.jetbrains.plugins.gradle.service.project.wizard.AbstractGradleModuleBuilder
 import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
 import java.io.File
-import javax.swing.BorderFactory
 import javax.swing.Icon
-import javax.swing.JButton
 
-class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : GradleModuleBuilder() {
+class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : AbstractGradleModuleBuilder() {
 
     companion object {
         // The Java minimum recommended version.
@@ -42,14 +41,16 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
 
     // This function returns the template icon from the resource or a default icon.
     override fun getNodeIcon(): Icon = with("""$templateDirectoryPath/icon.svg""") {
-        if (getResource(this) != null) IconLoader.getIcon(this) else Icons.ALCHEMIST_LOGO
+        if (getResource(this) != null) IconLoader.getIcon("/$this") else Icons.ALCHEMIST_LOGO
     }
 
     // This override removes the project id step from the wizard.
     override fun createWizardSteps(
         wizardContext: WizardContext,
         modulesProvider: ModulesProvider
-    ): Array<ModuleWizardStep> = super.createWizardSteps(wizardContext, modulesProvider).copyOfRange(0, 0)
+    ): Array<ModuleWizardStep> = ModuleWizardStep.EMPTY_ARRAY.apply {
+        setWizardContext(wizardContext)
+    }
 
     // This override adds the project JDK field to the wizard.
     override fun modifySettingsStep(settingsStep: SettingsStep): ModuleWizardStep? =
@@ -68,7 +69,12 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
             }
 
             // Create the combo box for selecting the project JDK.
-            val jdkComboBox = JdkComboBox(jdkModel) { it is JavaSdk }.apply {
+            val jdkComboBox = JdkComboBox(project, jdkModel, { it is JavaSdk }, null, null) {
+                // Store the user-added JDK in the IDE list to make it valid.
+                ApplicationManager.getApplication().runWriteAction {
+                    ProjectJdkTable.getInstance().addJdk(it)
+                }
+            }.apply {
 
                 // Set the project JDK when a selection is made in the combo box.
                 addActionListener {
@@ -79,47 +85,20 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                 selectedJdk = IntRange(0, itemCount - 1).mapNotNull { getItemAt(it).jdk }.sortedBy { it.versionString }
                     .firstOrNull { it.versionString!! >= """java version "$JAVA_MAJOR_VERSION.0.0"""" }
                     ?: selectedJdk
-
-                // Configure the button for adding JDK from the file system.
-                setSetupButton(
-                    JButton("New.."),
-                    project,
-                    jdkModel,
-                    JdkComboBox.NoneJdkComboBoxItem(),
-                    null,
-                    false
-                )
             }
 
             // Add the JDK field to the GUI.
             settingsStep.addSettingsField("Project JDK:", panel {
                 row {
                     jdkComboBox(growX, pushX, comment = """Using JDK $JAVA_MAJOR_VERSION or later is recommended.""")
-                    right {
-                        jdkComboBox.setUpButton()
-                    }
                 }
-            }.apply {
-                // Fix the alignment.
-                border = BorderFactory.createEmptyBorder(-7, -11, -7, -11)
             })
-
-            // Store the user-added project JDK in the IDE list to make it valid.
-            addListener {
-                ProjectJdkTable.getInstance().apply {
-                    val jdk = settingsStep.context.projectJdk
-                    if (jdk?.homePath in allJdks.map { it.homePath }) return@apply
-                    addJdk(jdk)
-                }
-            }
         }
 
     // This override copies the template files in the new module and sets the Gradle configurations
     override fun createModule(moduleModel: ModifiableModuleModel): Module =
         super.createModule(moduleModel).also { module ->
 
-            // Enable the auto-import for the Gradle build.
-            externalProjectSettings.isUseAutoImport = true
             // Use the default Gradle wrapper.
             externalProjectSettings.distributionType = DistributionType.DEFAULT_WRAPPED
 
