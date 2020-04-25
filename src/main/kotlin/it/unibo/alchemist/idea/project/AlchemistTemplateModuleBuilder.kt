@@ -81,7 +81,8 @@ class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) 
                     settingsStep.context.projectJdk = selectedJdk
                 }
 
-                // Preselect a JDK with at least the minimum recommended version, if it exists. Otherwise only fire the listener.
+                // Preselect a JDK with at least the minimum recommended version, if it exists.
+                // Otherwise only fire the listener.
                 selectedJdk = IntRange(0, itemCount - 1).mapNotNull { getItemAt(it).jdk }.sortedBy { it.versionString }
                     .firstOrNull { it.versionString!! >= """java version "$JAVA_MAJOR_VERSION.0.0"""" }
                     ?: selectedJdk
