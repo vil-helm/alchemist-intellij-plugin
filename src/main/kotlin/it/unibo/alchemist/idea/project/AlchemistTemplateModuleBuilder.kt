@@ -17,12 +17,12 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.ui.layout.panel
 import icons.Icons
 import io.github.classgraph.ClassGraph
+import java.io.File
+import javax.swing.Icon
 import org.jetbrains.plugins.gradle.service.execution.GradleExternalTaskConfigurationType
 import org.jetbrains.plugins.gradle.service.project.wizard.AbstractGradleModuleBuilder
 import org.jetbrains.plugins.gradle.settings.DistributionType
 import org.jetbrains.plugins.gradle.util.GradleConstants
-import java.io.File
-import javax.swing.Icon
 
 class AlchemistTemplateModuleBuilder(private val templateDirectoryPath: String) : AbstractGradleModuleBuilder() {
 
